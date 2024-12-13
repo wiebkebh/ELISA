@@ -1,0 +1,542 @@
+@prefix : <http://www.elisa.se/ontologies/Pavement#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix data: <http://www.elisa.se/ontologies/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.elisa.se/ontologies/Pavement> .
+
+<http://www.elisa.se/ontologies/Pavement> rdf:type owl:Ontology ;
+                                           owl:versionIRI <http://www.elisa.se/ontologies/Pavement/v1> ;
+                                           owl:imports <http://purl.oclc.org/NET/ssnx/qu/qu-rec20> .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://www.w3.org/2002/07/owl#qualifiedCardinality
+owl:qualifiedCardinality rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.elisa.se/ontologies/Pavement#hasAdditive
+:hasAdditive rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf :hasMaterial ;
+             rdfs:domain :PavementLayer ;
+             rdfs:range :Additive .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasAggregate
+:hasAggregate rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :hasMaterial ;
+              rdfs:domain :PavementLayer ;
+              rdfs:range :Aggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasBinder
+:hasBinder rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasMaterial ;
+           rdfs:domain :PavementLayer ;
+           rdfs:range :Binder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasFeature
+:hasFeature rdf:type owl:ObjectProperty ;
+            rdfs:domain :PhysicalObject ;
+            rdfs:range :Feature .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasLayer
+:hasLayer rdf:type owl:ObjectProperty ;
+          rdfs:domain :Pavement ;
+          rdfs:range :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasMaterial
+:hasMaterial rdf:type owl:ObjectProperty ;
+             rdfs:domain :PavementLayer ;
+             rdfs:range :Material .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasShape
+:hasShape rdf:type owl:ObjectProperty ;
+          rdfs:domain :Aggregate ;
+          rdfs:range :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#hasUnit
+:hasUnit rdf:type owl:ObjectProperty .
+
+
+###  http://www.elisa.se/ontologies/Pavement#isDirectlyAbove
+:isDirectlyAbove rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :isDirectlyBelow ;
+                 rdfs:domain :PavementLayer ;
+                 rdfs:range :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#isDirectlyBelow
+:isDirectlyBelow rdf:type owl:ObjectProperty ;
+                 rdfs:domain :PavementLayer ;
+                 rdfs:range :PavementLayer .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.elisa.se/ontologies/Pavement#hasValue
+:hasValue rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Feature ;
+          rdfs:range xsd:double .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.elisa.se/ontologies/Pavement#Additive
+:Additive rdf:type owl:Class ;
+          rdfs:subClassOf :Material .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Aggregate
+:Aggregate rdf:type owl:Class ;
+           rdfs:subClassOf :Material .
+
+
+###  http://www.elisa.se/ontologies/Pavement#BaseCourse
+:BaseCourse rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isDirectlyAbove ;
+                                                         owl:someValuesFrom :Subbase
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ,
+                                [ owl:intersectionOf ( :PavementLayer
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isDirectlyBelow ;
+                                                         owl:someValuesFrom :BinderCourse
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Binder
+:Binder rdf:type owl:Class ;
+        rdfs:subClassOf :Material .
+
+
+###  http://www.elisa.se/ontologies/Pavement#BinderCourse
+:BinderCourse rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :isDirectlyAbove ;
+                                                           owl:someValuesFrom :BaseCourse
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ,
+                                  [ owl:intersectionOf ( :PavementLayer
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :isDirectlyBelow ;
+                                                           owl:someValuesFrom :SurfaceCourse
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Bitumen
+:Bitumen rdf:type owl:Class ;
+         rdfs:subClassOf :Binder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Boulders
+:Boulders rdf:type owl:Class ;
+          rdfs:subClassOf :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Cement
+:Cement rdf:type owl:Class ;
+        rdfs:subClassOf :Binder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Clay
+:Clay rdf:type owl:Class ;
+      rdfs:subClassOf :FineAggregate ;
+      owl:disjointWith :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#CoarseAggregate
+:CoarseAggregate rdf:type owl:Class ;
+                 rdfs:subClassOf :Aggregate ;
+                 owl:disjointWith :CoarseSand ,
+                                  :FineSand ,
+                                  :MediumSand ,
+                                  :Silt .
+
+
+###  http://www.elisa.se/ontologies/Pavement#CoarseGravel
+:CoarseGravel rdf:type owl:Class ;
+              rdfs:subClassOf :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#CoarseSand
+:CoarseSand rdf:type owl:Class ;
+            rdfs:subClassOf :FineAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Cobbles
+:Cobbles rdf:type owl:Class ;
+         rdfs:subClassOf :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#ColdMixAsphalt
+:ColdMixAsphalt rdf:type owl:Class ;
+                rdfs:subClassOf :FlexiblePavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#CompactedSubgrade
+:CompactedSubgrade rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :isDirectlyAbove ;
+                                                                owl:someValuesFrom :NaturalSubgrade
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ,
+                                       [ owl:intersectionOf ( :PavementLayer
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :isDirectlyBelow ;
+                                                                owl:someValuesFrom :Subbase
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Feature
+:Feature rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Class ;
+                           owl:unionOf ( [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.oclc.org/NET/ssnx/qu/qu#propertyType> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass <http://purl.oclc.org/NET/ssnx/qu/qu#PropertyKind>
+                                         ]
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.oclc.org/NET/ssnx/qu/qu#quantityKind> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass <http://purl.oclc.org/NET/ssnx/qu/qu#QuantityKind>
+                                         ]
+                                       )
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasUnit ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass <http://purl.oclc.org/NET/ssnx/qu/qu#Unit>
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasValue ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:double
+                         ] .
+
+
+###  http://www.elisa.se/ontologies/Pavement#FineAggregate
+:FineAggregate rdf:type owl:Class ;
+               rdfs:subClassOf :Aggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#FineGravel
+:FineGravel rdf:type owl:Class ;
+            rdfs:subClassOf :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#FineSand
+:FineSand rdf:type owl:Class ;
+          rdfs:subClassOf :FineAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#FlexiblePavementLayer
+:FlexiblePavementLayer rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty :hasBinder ;
+                                                                    owl:allValuesFrom :Bitumen
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] ;
+                       rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#HotMixAsphalt
+:HotMixAsphalt rdf:type owl:Class ;
+               rdfs:subClassOf :FlexiblePavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Material
+:Material rdf:type owl:Class ;
+          rdfs:subClassOf :PhysicalObject ;
+          owl:disjointWith :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#MediumGravel
+:MediumGravel rdf:type owl:Class ;
+              rdfs:subClassOf :CoarseAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#MediumSand
+:MediumSand rdf:type owl:Class ;
+            rdfs:subClassOf :FineAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#NaturalSubgrade
+:NaturalSubgrade rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isDirectlyBelow ;
+                                                              owl:someValuesFrom :CompactedSubgrade
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ,
+                                     [ owl:intersectionOf ( :PavementLayer
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isDirectlyAbove ;
+                                                              owl:cardinality "0"^^xsd:nonNegativeInteger
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Pavement
+:Pavement rdf:type owl:Class ;
+          rdfs:subClassOf :PhysicalObject ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:someValuesFrom :BaseCourse
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:someValuesFrom :BinderCourse
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:someValuesFrom :CompactedSubgrade
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:someValuesFrom :Subbase
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:someValuesFrom :SurfaceCourse
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLayer ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :NaturalSubgrade
+                          ] .
+
+
+###  http://www.elisa.se/ontologies/Pavement#PavementLayer
+:PavementLayer rdf:type owl:Class ;
+               rdfs:subClassOf :PhysicalObject ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasMaterial ;
+                                 owl:someValuesFrom :Material
+                               ] .
+
+
+###  http://www.elisa.se/ontologies/Pavement#PhysicalObject
+:PhysicalObject rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasFeature ;
+                                  owl:someValuesFrom :Feature
+                                ] .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Plastomer
+:Plastomer rdf:type owl:Class ;
+           rdfs:subClassOf :PolymerModifiedBinder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#PolymerModifiedBinder
+:PolymerModifiedBinder rdf:type owl:Class ;
+                       rdfs:subClassOf :Bitumen .
+
+
+###  http://www.elisa.se/ontologies/Pavement#ReactivePolymer
+:ReactivePolymer rdf:type owl:Class ;
+                 rdfs:subClassOf :PolymerModifiedBinder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#RigidPavementLayer
+:RigidPavementLayer rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasBinder ;
+                                                                 owl:allValuesFrom :Cement
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Shape
+:Shape rdf:type owl:Class .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Silt
+:Silt rdf:type owl:Class ;
+      rdfs:subClassOf :FineAggregate .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Subbase
+:Subbase rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :isDirectlyAbove ;
+                                                      owl:someValuesFrom :CompactedSubgrade
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ,
+                             [ owl:intersectionOf ( :PavementLayer
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :isDirectlyBelow ;
+                                                      owl:someValuesFrom :BaseCourse
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#SurfaceCourse
+:SurfaceCourse rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :PavementLayer
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :isDirectlyAbove ;
+                                                            owl:someValuesFrom :BinderCourse
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ,
+                                   [ owl:intersectionOf ( :PavementLayer
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :isDirectlyBelow ;
+                                                            owl:cardinality "0"^^xsd:nonNegativeInteger
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#ThermoplasticElastomer
+:ThermoplasticElastomer rdf:type owl:Class ;
+                        rdfs:subClassOf :PolymerModifiedBinder .
+
+
+###  http://www.elisa.se/ontologies/Pavement#WarmMixAsphalt
+:WarmMixAsphalt rdf:type owl:Class ;
+                rdfs:subClassOf :FlexiblePavementLayer .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.elisa.se/ontologies/Pavement#Angular
+:Angular rdf:type owl:NamedIndividual ,
+                  :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Elongated
+:Elongated rdf:type owl:NamedIndividual ,
+                    :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Feature1
+:Feature1 rdf:type owl:NamedIndividual ,
+                   :Feature ;
+          <http://purl.oclc.org/NET/ssnx/qu/qu#quantityKind> <http://purl.oclc.org/NET/ssnx/qu/quantity#density> ;
+          :hasUnit <http://purl.oclc.org/NET/ssnx/qu/unit#poundPerGallonUs> ;
+          :hasValue "2.0"^^xsd:double .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Flaky
+:Flaky rdf:type owl:NamedIndividual ,
+                :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#FlankyAndElongated
+:FlankyAndElongated rdf:type owl:NamedIndividual ,
+                             :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#IrregularAndPartlyRounded
+:IrregularAndPartlyRounded rdf:type owl:NamedIndividual ,
+                                    :Shape .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Layer1
+:Layer1 rdf:type owl:NamedIndividual ,
+                 :PavementLayer .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Layer2
+:Layer2 rdf:type owl:NamedIndividual ,
+                 :PavementLayer ;
+        :hasLayer :Layer1 ,
+                  :Layer2 .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Pavement1
+:Pavement1 rdf:type owl:NamedIndividual ,
+                    :Pavement .
+
+
+###  http://www.elisa.se/ontologies/Pavement#Rounded
+:Rounded rdf:type owl:NamedIndividual ,
+                  :Shape .
+
+
+[ owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+[ owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+ ] .
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+   owl:members ( :Clay
+                 :CoarseSand
+                 :FineSand
+                 :MediumSand
+                 :Silt
+               )
+ ] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

@@ -1,0 +1,413 @@
+@prefix : <http://www.elisa.se/ontologies/PortLogistics#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix event: <http://example.com/Route/event#> .
+@prefix design: <http://example.com/Route/design#> .
+@prefix condition: <http://example.com/Route/condition#> .
+@base <http://www.elisa.se/ontologies/PortLogistics> .
+
+<http://www.elisa.se/ontologies/PortLogistics> rdf:type owl:Ontology ;
+                                                owl:versionIRI <http://www.elisa.se/ontologies/PortLogistics/v4.3> ;
+                                                owl:imports <http://www.w3.org/2006/time#2016> ;
+                                                rdfs:label "Port Logistics" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://ontologydesignpatterns.org/opla-sd#entityPositionX
+<http://ontologydesignpatterns.org/opla-sd#entityPositionX> rdf:type owl:AnnotationProperty .
+
+
+###  http://ontologydesignpatterns.org/opla-sd#entityPositionY
+<http://ontologydesignpatterns.org/opla-sd#entityPositionY> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasInternalTransportUnit
+:hasInternalTransportUnit rdf:type owl:ObjectProperty ;
+                          rdfs:range :InternalTransportUnit .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasLocation
+:hasLocation rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Operation ;
+             rdfs:range :PhysicalInfrastructure .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasShape
+:hasShape rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :InternalTransportUnit .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasTime
+:hasTime rdf:type owl:ObjectProperty ,
+                  owl:FunctionalProperty ;
+         rdfs:domain :Operation ;
+         rdfs:range time:TemporalEntity .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasVehicle
+:hasVehicle rdf:type owl:ObjectProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :Operation ;
+            rdfs:range :Vehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#withCargo
+:withCargo rdf:type owl:ObjectProperty ;
+           rdfs:domain :Truck ;
+           rdfs:range :Trailer .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasDamage
+:hasDamage rdf:type owl:DatatypeProperty ;
+           rdfs:domain :PhysicalInfrastructure ;
+           rdfs:range xsd:double .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasLength
+:hasLength rdf:type owl:DatatypeProperty ;
+           rdfs:domain :PhysicalInfrastructure ;
+           rdfs:range xsd:double ;
+           rdfs:comment "[m]" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasNumberOfAxles
+:hasNumberOfAxles rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Vehicle ;
+                  rdfs:range xsd:int ;
+                  rdfs:comment "[1]" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasPavementConditionIndex
+:hasPavementConditionIndex rdf:type owl:DatatypeProperty ;
+                           rdfs:domain :PhysicalInfrastructure ;
+                           rdfs:range xsd:double ;
+                           rdfs:comment "[m/km]" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasSpeed
+:hasSpeed rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Vehicle ;
+          rdfs:range xsd:double ;
+          rdfs:comment "[km/h]" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasTareWeight
+:hasTareWeight rdf:type owl:DatatypeProperty ;
+               rdfs:domain :InternalTransportUnit ;
+               rdfs:range xsd:double ;
+               rdfs:comment "[kg]" ,
+                            "weight of the empty container" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasTireContactArea
+:hasTireContactArea rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Vehicle ;
+                    rdfs:range xsd:double .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasWeight
+:hasWeight rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Vehicle ;
+           rdfs:range xsd:double ;
+           rdfs:comment "[kg]" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasWheelDistance
+:hasWheelDistance rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Vehicle ;
+                  rdfs:range xsd:double ;
+                  rdfs:comment "[mm]" ,
+                               "axle track" .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#hasWidth
+:hasWidth rdf:type owl:DatatypeProperty ;
+          rdfs:domain :PhysicalInfrastructure ;
+          rdfs:range xsd:double ;
+          rdfs:comment "[m]" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.elisa.se/ontologies/PortLogistics#Activity
+:Activity rdf:type owl:Class ;
+          rdfs:subClassOf :Operation ;
+          owl:disjointWith :InternalTransportUnit ,
+                           :PhysicalInfrastructure ,
+                           :Vehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Berth
+:Berth rdf:type owl:Class ;
+       rdfs:subClassOf :PhysicalInfrastructure ;
+       owl:disjointWith :Gate ,
+                        :ParkingLot ,
+                        :Road .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Boarding
+:Boarding rdf:type owl:Class ;
+          rdfs:subClassOf :Transport ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLocation ;
+                            owl:allValuesFrom :Berth
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLocation ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Berth
+                          ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Gate
+:Gate rdf:type owl:Class ;
+      rdfs:subClassOf :PhysicalInfrastructure ;
+      owl:disjointWith :ParkingLot ,
+                       :Road .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#HandlingEquipment
+:HandlingEquipment rdf:type owl:Class ;
+                   rdfs:subClassOf :Vehicle ;
+                   owl:disjointWith :TransportVehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Idling
+:Idling rdf:type owl:Class ;
+        rdfs:subClassOf :State ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasLocation ;
+                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :PhysicalInfrastructure
+                        ] ;
+        owl:disjointWith :Waiting .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#InternalTractor
+:InternalTractor rdf:type owl:Class ;
+                 rdfs:subClassOf :HandlingEquipment .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#InternalTransportUnit
+:InternalTransportUnit rdf:type owl:Class ;
+                       rdfs:subClassOf :Vehicle ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :hasTareWeight ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onDataRange xsd:double
+                                       ] ;
+                       owl:disjointWith :PhysicalInfrastructure ,
+                                        :State ;
+                       rdfs:label "ITU"^^rdfs:Literal .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Lorry
+:Lorry rdf:type owl:Class ;
+       rdfs:subClassOf :InternalTransportUnit .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Operation
+:Operation rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasTime ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass time:TemporalEntity
+                           ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Parking
+:Parking rdf:type owl:Class ;
+         rdfs:subClassOf :Activity ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasLocation ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :ParkingLot
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTime ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass time:Interval
+                         ] ;
+         owl:disjointWith :Transport .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#ParkingLot
+:ParkingLot rdf:type owl:Class ;
+            rdfs:subClassOf :PhysicalInfrastructure ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasPavementConditionIndex ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:double
+                            ] ;
+            owl:disjointWith :Road .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#PhysicalInfrastructure
+:PhysicalInfrastructure rdf:type owl:Class ;
+                        rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                          owl:onProperty :hasLength ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onDataRange xsd:double
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :hasWidth ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onDataRange xsd:double
+                                        ] ;
+                        owl:disjointWith :State ,
+                                         :Vehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Road
+:Road rdf:type owl:Class ;
+      rdfs:subClassOf :PhysicalInfrastructure ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasPavementConditionIndex ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:double
+                      ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#State
+:State rdf:type owl:Class ;
+       rdfs:subClassOf :Operation ;
+       owl:disjointWith :Vehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Trailer
+:Trailer rdf:type owl:Class ;
+         rdfs:subClassOf :InternalTransportUnit .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Transport
+:Transport rdf:type owl:Class ;
+           rdfs:subClassOf :Activity ,
+                           [ rdf:type owl:Class ;
+                             owl:unionOf ( [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasLocation ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :Berth
+                                           ]
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasLocation ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :Road
+                                           ]
+                                         )
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasTime ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass time:Interval
+                           ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#TransportVehicle
+:TransportVehicle rdf:type owl:Class ;
+                  rdfs:subClassOf :Vehicle .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Truck
+:Truck rdf:type owl:Class ;
+       rdfs:subClassOf :TransportVehicle ;
+       owl:disjointWith :Vessel .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Unboarding
+:Unboarding rdf:type owl:Class ;
+            rdfs:subClassOf :Transport ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasLocation ;
+                              owl:allValuesFrom :Berth
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasLocation ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :Berth
+                            ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Vehicle
+:Vehicle rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasNumberOfAxles ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:int
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSpeed ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:double
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTireContactArea ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:double
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasWeight ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:double
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasWheelDistance ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:double
+                         ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Vessel
+:Vessel rdf:type owl:Class ;
+        rdfs:subClassOf :TransportVehicle ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasNumberOfAxles ;
+                          owl:hasValue 0
+                        ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#Waiting
+:Waiting rdf:type owl:Class ;
+         rdfs:subClassOf :State ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasLocation ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :WaitingPosition
+                         ] .
+
+
+###  http://www.elisa.se/ontologies/PortLogistics#WaitingPosition
+:WaitingPosition rdf:type owl:Class ;
+                 rdfs:subClassOf :PhysicalInfrastructure ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasPavementConditionIndex ;
+                                   owl:someValuesFrom xsd:double
+                                 ] .
+
+
+###  http://www.w3.org/2006/time#Instant
+time:Instant rdf:type owl:Class .
+
+
+###  http://www.w3.org/2006/time#Interval
+time:Interval rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
